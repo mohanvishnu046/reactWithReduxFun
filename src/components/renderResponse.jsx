@@ -34,16 +34,27 @@ const RenderResponse = ({ data }) => {
     data[selectedChannel].tabs[selectedTab].reviewComments = currentComments;
     data[selectedChannel].tabs[selectedTab].reviewStatus = status;
 
-    alert(`Submitted reviewStatus: "${status}" for ${selectedChannel} → ${selectedTab}`);
     console.log('Updated tab:', data[selectedChannel].tabs[selectedTab]);
 
     console.log(`data after submit:: ${JSON.stringify(data)}`)
+    
+  // Move to next tab automatically
+  const tabKeys = Object.keys(data[selectedChannel].tabs);
+  const currentIndex = tabKeys.indexOf(selectedTab);
+
+  if (currentIndex < tabKeys.length - 1) {
+    const nextTab = tabKeys[currentIndex + 1];
+    setSelectedTab(nextTab);
+  } else {
+    // Optional: handle end of tab list
+    alert("All tabs reviewed for this channel.");
+  }
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* Channel Buttons */}
       <div style={{ marginBottom: '20px' }}>
+      {/* Channel Buttons */}
         <h3>Select Channel:</h3>
         {Object.keys(data).map((channel) => (
           <button

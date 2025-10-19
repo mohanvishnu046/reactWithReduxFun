@@ -1,6 +1,6 @@
 export const journal = {
     "token": {
-      "channel": "token_channel",
+      "channel": "token",
       "prunId": "runid_token_3.13.20251019052352",
       "tabs": {
         "tab1": {
@@ -26,7 +26,7 @@ export const journal = {
       }
     },
     "MPP": {
-      "channel": "mpp_channel",
+      "channel": "mpp",
       "prunId": "runid_mpp_3.13.20251019052352",
       "tabs": {
         "tab1": {
@@ -48,7 +48,7 @@ export const journal = {
 }
 export const cmm = {
     "visa": {
-      "channel": "visa_channel",
+      "channel": "visa",
       "prunId": "runid_visa_3.13.20251019052352",
       "tabs": {
         "tab1": {
@@ -68,7 +68,7 @@ export const cmm = {
       }
     },
     "mcds": {
-      "channel": "mcds_channel",
+      "channel": "mcds",
       "prunId": "runid_mcds_3.13.20251019052352",
       "tabs": {
         "tab1": {
