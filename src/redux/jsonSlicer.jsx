@@ -22,7 +22,8 @@ const jsonSlicer = createSlice({
           ...state.data[key],
           ...updates,  // merge new fields or override existing ones
         };
-      }
+        console.log(`updated in redux :: ${key} :: ${JSON.stringify(updates)}`)
+      } else state.data[key] = updates;
     },
 
     // Remove a specific key

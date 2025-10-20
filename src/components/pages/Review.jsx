@@ -1,12 +1,14 @@
 import React,{ useState } from 'react'
 import { cmm, journal } from '../static_data';
 import RenderResponse from '../renderResponse';
+import '../../css/components/pages/review.css'
 
 const Review = () => {
     const [data, setData] = useState(null);
-
+    const [selectedInterface,setSelectedInterface] = useState(null);
   const handleClick = async (type) => {
     let result;
+    setSelectedInterface(type)
     switch(type) {
       case "journal":
         result = journal;
@@ -21,18 +23,27 @@ const Review = () => {
   };
   return (
     <>
-    <h3>Choose interface to review:</h3>
-  <div style={{ paddingTop: '40px', position: 'absolute', top: '10px', left: '10px', zIndex: 10, display:'flex', gap:'10px'}}>
-    <button onClick={() => handleClick('journal')}>JOURNAL</button>
-    <button onClick={() => handleClick('cmm')}>CMM</button>
-  </div>
-
-  {/* Add top padding equal to or more than button height */}
-  {data && <div style={{ paddingTop: '60px', position: 'relative', zIndex: 1 }}>
-    <RenderResponse data={data} />
-  </div>}
-  </>
-  )
+      <h3>Choose interface to review:</h3>
+  
+      {/* Interface Selection Buttons */}
+      <div className="interface-buttons">
+        <button onClick={() => handleClick('journal')} className="interface-button">
+          JOURNAL
+        </button>
+        <button onClick={() => handleClick('cmm')} className="interface-button">
+          CMM
+        </button>
+      </div>
+  
+      {/* RenderResponse Component */}
+      {data && (
+        <div className="render-response-container">
+          <RenderResponse data={data} interfaceName={selectedInterface} />
+        </div>
+      )}
+    </>
+  );
+  
 }
 
 export default Review
