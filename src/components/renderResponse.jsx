@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { storeJson, updateJson } from '../redux/jsonSlicer';
 import '../css/components/renderResponse.css'
 import DiffTable from './DiffTab';
+import FinalReview from './finalReview';
 
 const RenderResponse = ({data, interfaceName}) => {
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -11,11 +12,13 @@ const RenderResponse = ({data, interfaceName}) => {
   const dispatch = useDispatch();
   const jsonData = useSelector((state) => state.review.data);
   const [localData, setLocalData] =useState({});
+  const [finalReview,setFinalReview] = useState(null);
   useEffect(() => {
     if(data){
         setSelectedChannel(null)
         setComments({})
         setSelectedTab(null)
+        setFinalReview(null)
     }
   }, [data]);
   // Extract reviewComments into the desired structure
@@ -63,9 +66,10 @@ const RenderResponse = ({data, interfaceName}) => {
   
    // When a channel is selected, check if the data is available in the Redux store
    const handleChannelSelection = (channel) => {
-    setSelectedChannel(channel);
-    setSelectedTab(null);
-    
+    setSelectedChannel(channel)
+    setSelectedTab(null)
+    if(finalReview==='Final Review')
+      setFinalReview(null)
     if (data[channel]?.tabs) {
       const tabs = Object.keys(data[channel].tabs);
       
@@ -124,20 +128,30 @@ const RenderResponse = ({data, interfaceName}) => {
       updates: newLocalData, // Store the updated channel data back to Redux
     }));
   
-  console.log(`newLocalData ${selectedTab}:: ${JSON.stringify(newLocalData)}`)  
-  // Move to next tab automatically
-  const tabKeys = Object.keys(localData.tabs);
-  const currentIndex = tabKeys.indexOf(selectedTab);
+    console.log(`newLocalData ${selectedTab}:: ${JSON.stringify(newLocalData)}`)  
+    // Move to next tab automatically
+    const tabKeys = Object.keys(localData.tabs);
+    const currentIndex = tabKeys.indexOf(selectedTab);
 
-  if (currentIndex < tabKeys.length - 1) {
-    const nextTab = tabKeys[currentIndex + 1];
-    setSelectedTab(nextTab);
-  } else {
-    // Optional: handle end of tab list
-      console.log(`newLocalData after submit :: ${JSON.stringify(newLocalData)}`)  
-    // alert("All tabs reviewed for this channel.");
-  }
+    if (currentIndex < tabKeys.length - 1) {
+      const nextTab = tabKeys[currentIndex + 1];
+      setSelectedTab(nextTab);
+    } else {
+      // Optional: handle end of tab list
+        console.log(`newLocalData after submit :: ${JSON.stringify(newLocalData)}`)  
+      // alert("All tabs reviewed for this channel.");
+    }
   };
+  const handleTabClick =(tab) =>{
+    if(tab === 'Final Review'){
+      setFinalReview('Final Review')
+      setSelectedTab(null)
+    }else{ 
+      setSelectedTab(tab)
+      if(finalReview ==='Final Review')
+        setFinalReview(null)
+    }
+  }
 
   return (
     <div className="render-response">
@@ -163,13 +177,21 @@ const RenderResponse = ({data, interfaceName}) => {
             ? Object.keys(localData.tabs).map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setSelectedTab(tab)}
+                  onClick={()=>handleTabClick(tab)}
                   className={selectedTab === tab ? 'selected' : 'unselected'}
                 >
                   {tab}
                 </button>
               ))
             : null}
+            {/* Final Review Tab */}
+            <button
+              key="final-review"
+              onClick={()=>handleTabClick('Final Review')}
+              className={finalReview === 'Final Review' ? 'selected' : 'unselected'}
+            >
+              Final Review
+            </button>
         </div>
       )}
   
@@ -198,6 +220,14 @@ const RenderResponse = ({data, interfaceName}) => {
         NoGo
       </button>
     </div>
+        </>
+      )}
+
+      {/* finalReviewTab */}
+      {selectedChannel && finalReview &&(
+        <>
+        <FinalReview selectedChannel ={selectedChannel}
+         selectedInterface = {interfaceName}/>
         </>
       )}
     </div>

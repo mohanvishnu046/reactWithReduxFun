@@ -14,13 +14,17 @@
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    background-color: #47b3f1;
-    color: white;
+    background-color: #e0e0e0;
+    color: #000;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
   }
   
+  .interface-button.selected {
+    background-color: #003366; /* Dark blue */
+    color: #fff;
+  }
   .interface-button:hover {
     background-color: #1976d2;
   }

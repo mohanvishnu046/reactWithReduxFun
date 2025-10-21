@@ -101,3 +101,7 @@ export const cmm = {
       }
     }
 }
+export const interfaceNames = [
+  { type: 'journal', label: 'JOURNAL' },
+  { type: 'cmm', label: 'CMM' },
+];

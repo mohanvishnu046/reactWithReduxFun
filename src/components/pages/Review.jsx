@@ -1,7 +1,8 @@
 import React,{ useState } from 'react'
 import { cmm, journal } from '../static_data';
 import RenderResponse from '../renderResponse';
-import '../../css/components/pages/review.css'
+import '../../css/components/pages/review.css';
+import { interfaceNames } from '../static_data';
 
 const Review = () => {
     const [data, setData] = useState(null);
@@ -27,12 +28,15 @@ const Review = () => {
   
       {/* Interface Selection Buttons */}
       <div className="interface-buttons">
-        <button onClick={() => handleClick('journal')} className="interface-button">
-          JOURNAL
-        </button>
-        <button onClick={() => handleClick('cmm')} className="interface-button">
-          CMM
-        </button>
+      {interfaceNames.map(({ type, label }) => (
+        <button
+          key={type}
+          onClick={() => handleClick(type)}
+          className={`interface-button ${selectedInterface === type ? 'selected' : ''}`}
+        >
+          {label}
+    </button>
+  ))}
       </div>
   
       {/* RenderResponse Component */}
